@@ -1,12 +1,7 @@
-pipeline {
-    agent none
-    stages {
-    stage('Building image') {
-        steps{
-        script {
-            docker.build nginx:custom + ":$BUILD_NUMBER"
-        }
-        }
-    }
-    }
+node('docker') {
+ 
+    stage 'Checkout'
+        checkout scm
+    stage 'Build'
+    sh "docker build -t nginx-custom:${BUILD_NUMBER} -f Dockerfile ."
 }
