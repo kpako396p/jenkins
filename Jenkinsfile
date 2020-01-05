@@ -1,15 +1,12 @@
 pipeline {
     agent none
     stages {
-        stage('Build') {
-            agent {
-                docker {
-                    image 'docker:dind'
-                }
-            }
-            steps {
-                sh 'docker build -t nginx:custom .'
-            }
+    stage('Building image') {
+        steps{
+        script {
+            docker.build nginx:custom + ":$BUILD_NUMBER"
         }
+        }
+    }
     }
 }
