@@ -1,7 +1,21 @@
-node('docker') {
- 
-    stage 'Checkout'
-        checkout scm
-    stage 'Build'
-    sh "docker build -t nginx-custom:${BUILD_NUMBER} -f Dockerfile ."
+pipeline {
+  agent any
+  stages {
+    stage('Building image') {
+      steps{
+        script {
+          sh "cat Dockerfile"
+        }
+      }
+    }
+    // stage('Deploy Image') {
+    //   steps{
+    //     script {
+    //       docker.withRegistry( '', registryCredential ) {
+    //         dockerImage.push()
+    //       }
+    //     }
+    //   }
+    // }
+  }
 }
