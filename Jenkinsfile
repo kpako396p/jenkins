@@ -18,27 +18,25 @@ pipeline {
                 }
             }
         }
-        // stage('Test image') {
+        stage('Test') {
+            agent {
+                docker {
+                    image 'moshedayan/nginx-custom:latest'
+                }
+            }
+            steps {
+                sh 'curl 127.0.0.1'
+            }
+        }
+        // stage('Pushing image') {
         //     steps{
-        //         script{
-        //             customImage.inside {
-        //                 sh '''
-        //                 curl 127.0.0.1" > output.log
-        //                 cat output.log
-        //                 '''
+        //         script {
+        //             withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
+        //                 customImage.push()
+        //                 customImage.push('latest')
         //             }
         //         }
         //     }
         // }
-        stage('Pushing image') {
-            steps{
-                script {
-                    withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
-                        customImage.push()
-                        customImage.push('latest')
-                    }
-                }
-            }
-        }
     }
 }
