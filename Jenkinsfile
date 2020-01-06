@@ -8,8 +8,8 @@ pipeline {
             steps{
                 script {
                     sh '''
-                    echo Build number is $env.BUILD_NUMBER
-                    sed -i 's/__BUILD__/${env.BUILD_NUMBER}/g' index.html
+                    echo Build number is $BUILD_NUMBER
+                    sed -i 's/__BUILD__/${BUILD_NUMBER}/g' index.html
                     cat index.html
                     '''
                 }
