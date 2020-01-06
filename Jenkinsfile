@@ -17,22 +17,27 @@ pipeline {
         stage('Building image') {
             steps{
                 script {
-                    nginx = docker.build IMAGE_NAME + ":$BUILD_NUMBER"
-                }
-            }
-        }
-        stage('Test') {
-            steps{
-                script {
-                    docker.image(IMAGE_NAME).withRun('-p 8000:80') {c ->
-                        sh '''
-                        hostname
-                        curl 0.0.0.0:8000
-                        '''
+                    withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
+                        nginx = docker.build IMAGE_NAME + ":$BUILD_NUMBER"
+                            //             
+                        nginx.push()
+                        nginx.push('latest')
                     }
                 }
             }
         }
+        // stage('Test') {
+        //     steps{
+        //         script {
+        //             docker.image(IMAGE_NAME).withRun('-p 8000:80') {c ->
+        //                 sh '''
+        //                 hostname
+        //                 curl 0.0.0.0:8000
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
         // stage('Pushing image') {
         //     steps{
         //         script {
