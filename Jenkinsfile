@@ -1,21 +1,11 @@
 pipeline {
-  agent any
-  stages {
-    stage('Building image') {
-      steps{
-        script {
-          sh "cat Dockerfile"
+    agent any  stages {
+        stage('Building image') {
+            steps{
+                script {
+                    docker.build "nginx-custom" + ":$BUILD_NUMBER"
         }
       }
     }
-    // stage('Deploy Image') {
-    //   steps{
-    //     script {
-    //       docker.withRegistry( '', registryCredential ) {
-    //         dockerImage.push()
-    //       }
-    //     }
-    //   }
-    // }
   }
 }
