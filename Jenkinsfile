@@ -32,9 +32,11 @@ pipeline {
         // }
         stage('Pushing image') {
             steps{
-                withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
-                    customImage.push()
-                    customImage.push('latest')
+                script {
+                    withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
+                        customImage.push()
+                        customImage.push('latest')
+                    }
                 }
             }
         }
