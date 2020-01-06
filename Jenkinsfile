@@ -17,7 +17,7 @@ pipeline {
         stage('Building image') {
             steps{
                 script {
-                    def customImage = docker.build(${IMAGE_NAME}:${env.BUILD_ID}")
+                    docker.build IMAGE_NAME + ":$BUILD_NUMBER"
                 }
             }
         }
