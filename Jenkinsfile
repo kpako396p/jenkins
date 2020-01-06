@@ -18,8 +18,8 @@ pipeline {
                 script {
                     sh '''
                     docker pull moshedayan/nginx-custom:latest
-                    docker run -tid -p 80:80 --name nginx-custom moshedayan/nginx-custom:latest
-                    curl 127.0.0.1
+                    docker run -tid -p 8090:80 --name nginx-custom moshedayan/nginx-custom:latest
+                    curl 127.0.0.1:8090
                     docker kill nginx-custom
                     '''
                 }
