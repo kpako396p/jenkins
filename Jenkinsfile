@@ -31,8 +31,7 @@ pipeline {
                 script {
                     sh '''
                     docker run -tid -p 8000:80 $IMAGE_NAME:latest
-                    '''
-                    }            
+                    '''            
                 }
             }
         }
