@@ -1,5 +1,8 @@
 pipeline {
     agent any  
+    environment {
+        IMAGE_NAME = 'moshedayan/nginx-custom'
+    }
     stages {
         stage('Modifing') {
             steps{
@@ -14,7 +17,7 @@ pipeline {
         stage('Building image') {
             steps{
                 script {
-                    def customImage = docker.build("moshedayan/nginx-custom:${env.BUILD_ID}")
+                    def customImage = docker.build(${IMAGE_NAME}:${env.BUILD_ID}")
                 }
             }
         }
