@@ -1,27 +1,32 @@
 pipeline {
     agent any  
     stages {
-        stage('Building image') {
+        stage('Modifing') {
             steps{
                 script {
-                    withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
-                        // docker.build "nginx-custom" + ":$BUILD_NUMBER"
-                        def customImage = docker.build("moshedayan/nginx-custom:${env.BUILD_ID}")
-                        customImage.push()
-                        customImage.push('latest')
-                    }
+                    sh "sed -i "s/__BUILD__/${env.BUILD_ID}/g" index.html"
                 }
             }
         }
-        stage('Run and test') {
+        stage('Building image') {
             steps{
                 script {
-                    sh '''
-                    docker pull moshedayan/nginx-custom:latest
-                    docker run -tid -p 8090:80 --name nginx-custom moshedayan/nginx-custom:latest
-                    curl 127.0.0.1:8090
-                    docker kill nginx-custom
-                    '''
+                    def customImage = docker.build("moshedayan/nginx-custom:${env.BUILD_ID}")
+                }
+            }
+        }
+        stage('Test image') {
+            customImage.inside {
+                sh 'curl 127.0.0.1' 
+            }
+        }
+        stage('Pushing image') {
+            steps{
+                script {
+                    withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
+                        customImage.push()
+                        customImage.push('latest')
+                    }
                 }
             }
         }
