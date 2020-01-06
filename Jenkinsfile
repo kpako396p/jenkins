@@ -8,8 +8,8 @@ pipeline {
             steps{
                 script {
                     sh '''
-                    echo $BUILD_NUMBER
-                    sed -i 's/__BUILD__/$BUILD_NUMBER/g' index.html
+                    echo Build number is $env.BUILD_NUMBER
+                    sed -i 's/__BUILD__/${env.BUILD_NUMBER}/g' index.html
                     cat index.html
                     '''
                 }
@@ -19,35 +19,12 @@ pipeline {
             steps{
                 script {
                     withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
-                        nginx = docker.build IMAGE_NAME + ":$BUILD_NUMBER"
-                            //             
+                        nginx = docker.build IMAGE_NAME + ":$BUILD_NUMBER"      
                         nginx.push()
                         nginx.push('latest')
                     }
                 }
             }
         }
-        // stage('Test') {
-        //     steps{
-        //         script {
-        //             docker.image(IMAGE_NAME).withRun('-p 8000:80') {c ->
-        //                 sh '''
-        //                 hostname
-        //                 curl 0.0.0.0:8000
-        //                 '''
-        //             }
-        //         }
-        //     }
-        // }
-        // stage('Pushing image') {
-        //     steps{
-        //         script {
-        //             withDockerRegistry([credentialsId: 'registry', url: "https://index.docker.io/v1/"]) {
-        //                 customImage.push()
-        //                 customImage.push('latest')
-        //             }
-        //         }
-        //     }
-        // }
     }
 }
