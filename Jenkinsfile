@@ -30,8 +30,8 @@ pipeline {
             steps{
                 script {
                     sh '''
-                    docker run -tid -p 8000:80 $IMAGE_NAME:latest
-                    '''            
+                    docker run -tid -p 127.0.0.1:8000:80 $IMAGE_NAME:latest
+                    '''
                 }
             }
         }
