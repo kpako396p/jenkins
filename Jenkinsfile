@@ -18,7 +18,7 @@ pipeline {
         stage('Run nginx') {
             steps{
                 script {
-                    docker.image(IMAGE_NAME).withRun('-p 8000:80 --name nginx-custom') { c ->
+                    docker.image(IMAGE_NAME).withRun('-p 8000:80 -tid --name nginx-custom') { c ->
                         sh '''
                         docker exec nginx-custom nginx -v
                         '''
