@@ -18,8 +18,13 @@ pipeline {
         stage('Run nginx') {
             steps{
                 script {
-                    docker.image(IMAGE_NAME).withRun('-p 8000:80') { c ->
-                        sh 'curl 0.0.0.0:8000'
+                    docker.image(IMAGE_NAME).withRun('-p 8000:80 --name nginx-custom') { c ->
+                        sh '''
+                        docker exec -ti nginx-custom
+                        nginx -v
+                        apk add --update curl
+                        curl 0.0.0.0
+                        '''
                     }            
                 }
             }
