@@ -5,7 +5,7 @@ pipeline {
             steps{
                 script {
                     sh '''
-                    sed -i 's/__BUILD__/${env.BUILD_ID}/g' index.html
+                    sed -i 's/__BUILD__/\${env.BUILD_ID}/g' index.html
                     cat index.html
                     '''
                 }
@@ -21,7 +21,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'moshedayan/nginx-custom:${env.BUILD_ID}'
+                    image 'moshedayan/nginx-custom'
                 }
             }
             steps {
