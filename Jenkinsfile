@@ -31,7 +31,8 @@ pipeline {
                 script {
                     sh '''
                     docker run -tid -p 8000:80 --name nginx-custom $IMAGE_NAME:latest
-                    docker exec nginx-custom apk add --no-cache curl && curl 0.0.0.0
+                    docker exec nginx-custom apk add --no-cache curl
+                    docker exec nginx-custom curl 0.0.0.0
                     '''
                 }
             }
