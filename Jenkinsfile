@@ -4,10 +4,11 @@ pipeline {
         IMAGE_NAME = 'moshedayan/nginx-custom'
     }
     stages {
-        stage('Modifing') {
+        stage('Modifying') {
             steps{
                 script {
                     sh '''
+                    echo $BUILD_NUMBER
                     sed -i 's/__BUILD__/${BUILD_NUMBER}/g' index.html
                     cat index.html
                     '''
