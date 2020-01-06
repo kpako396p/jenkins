@@ -4,17 +4,6 @@ pipeline {
         IMAGE_NAME = 'moshedayan/nginx-custom'
     }
     stages {
-        stage('Modifying') {
-            steps{
-                script {
-                    sh '''
-                    echo Build number is $BUILD_NUMBER
-                    sed -i 's/__BUILD__/${BUILD_NUMBER}/g' index.html
-                    cat index.html
-                    '''
-                }
-            }
-        }
         stage('Building image') {
             steps{
                 script {
@@ -23,6 +12,16 @@ pipeline {
                         nginx.push()
                         nginx.push('latest')
                     }
+                }
+            }
+        }
+        stage('Run nginx') {
+            steps{
+                script {
+                    docker.image(IMAGE_NAME).withRun('-p 8000:80') { c ->
+                        sh 'nginx -v'
+                        sh 'curl 0.0.0.0'
+                    }            
                 }
             }
         }
