@@ -24,8 +24,8 @@ pipeline {
         stage('Test') {
             steps{
                 script {
-                    nginx.inside {
-                        sh "curl 0.0.0.0"
+                    docker.image(IMAGE_NAME).withRun('-p 80:80') {c ->
+                        sh 'curl 0.0.0.0'
                     }
                 }
             }
