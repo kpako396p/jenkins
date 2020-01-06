@@ -21,7 +21,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'moshedayan/nginx-custom:latest'
+                    image 'moshedayan/nginx-custom:${env.BUILD_ID}'
                 }
             }
             steps {
