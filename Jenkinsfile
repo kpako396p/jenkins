@@ -19,7 +19,6 @@ pipeline {
             steps{
                 script {
                     docker.image(IMAGE_NAME).withRun('-p 8000:80') { c ->
-                        sh 'nginx -v'
                         sh 'curl 0.0.0.0'
                     }            
                 }
