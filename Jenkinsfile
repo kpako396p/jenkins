@@ -22,10 +22,14 @@ pipeline {
             }
         }
         stage('Test') {
-            docker.image('moshedayan/nginx-custom') { c ->
-                docker.image('byrnedo/alpine-curl').inside("--link ${c.id}:curl") {
-                    /* Wait until mysql service is up */
-                    sh 'curl 127.0.0.1'
+            steps{
+                script {
+                    docker.image('moshedayan/nginx-custom') { c ->
+                        docker.image('byrnedo/alpine-curl').inside("--link ${c.id}:curl") {
+                            /* Wait until mysql service is up */
+                            sh 'curl 127.0.0.1'
+                        }
+                    }
                 }
             }
         }
