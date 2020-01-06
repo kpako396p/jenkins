@@ -30,9 +30,9 @@ pipeline {
             steps{
                 script {
                     sh '''
-                    docker run -tid -p 8000:80 --name nginx-custom $IMAGE_NAME:latest
-                    docker exec nginx-custom apk add --no-cache curl
-                    docker exec nginx-custom curl -s -o /dev/null -w "%{http_code}" 0.0.0.0:8000
+                    docker run -tid -p 8000:80 --name nginx-custom-$BUILD_NUMBER $IMAGE_NAME:latest
+                    docker exec nginx-custom-$BUILD_NUMBER apk add --no-cache curl
+                    docker exec nginx-custom-$BUILD_NUMBER curl -s -o /dev/null -w "%{http_code}" 0.0.0.0:8000
                     '''
                 }
             }
