@@ -24,9 +24,10 @@ pipeline {
         stage('Test') {
             steps{
                 script {
-                    nginx.run("-p 80:80")
-                    sh 'curl 127.0.0.1'
-                        }
+                    nginx.inside {
+                        sh "curl 0.0.0.0"
+                    }
+                }
             }
         }
         // stage('Pushing image') {
