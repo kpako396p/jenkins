@@ -19,7 +19,7 @@ pipeline {
             steps{
                 script {
                     docker.image(IMAGE_NAME).withRun('-p 8000:80') { c ->
-                        sh 'curl 0.0.0.0'
+                        sh 'curl 0.0.0.0:8000'
                     }            
                 }
             }
