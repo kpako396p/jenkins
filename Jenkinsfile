@@ -20,10 +20,7 @@ pipeline {
                 script {
                     docker.image(IMAGE_NAME).withRun('-p 8000:80 --name nginx-custom') { c ->
                         sh '''
-                        docker exec -ti nginx-custom
-                        nginx -v
-                        apk add --update curl
-                        curl 0.0.0.0
+                        docker exec -ti nginx-custom nginx -v
                         '''
                     }            
                 }
