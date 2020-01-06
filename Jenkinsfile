@@ -8,7 +8,7 @@ pipeline {
             steps{
                 script {
                     sh '''
-                    sed -i 's/__BUILD__/${BUILD_NUMBER}/g' index.html
+                    sed -i 's/__BUILD__/%BUILD_NUMBER%/g' index.html
                     cat index.html
                     '''
                 }
