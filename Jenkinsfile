@@ -4,7 +4,7 @@ pipeline {
         stage('Modifing') {
             steps{
                 script {
-                    sh "sed -i "s/__BUILD__/${env.BUILD_ID}/g" index.html"
+                    sh "sed -i 's/__BUILD__/${env.BUILD_ID}/g' index.html"
                 }
             }
         }
