@@ -8,7 +8,7 @@ pipeline {
             steps{
                 script {
                     sh '''
-                    sed -i 's/__BUILD__/%BUILD_NUMBER%/g' index.html
+                    sed -i 's/__BUILD__/${BUILD_NUMBER}/g' index.html
                     cat index.html
                     '''
                 }
@@ -22,13 +22,11 @@ pipeline {
             }
         }
         stage('Test') {
-            agent {
-                docker {
-                    image 'moshedayan/nginx-custom'
+            docker.image('moshedayan/nginx-custom') { c ->
+                docker.image('byrnedo/alpine-curl').inside("--link ${c.id}:curl") {
+                    /* Wait until mysql service is up */
+                    sh 'curl 127.0.0.1'
                 }
-            }
-            steps {
-                sh 'curl 127.0.0.1'
             }
         }
         // stage('Pushing image') {
