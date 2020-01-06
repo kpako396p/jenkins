@@ -17,20 +17,16 @@ pipeline {
         stage('Building image') {
             steps{
                 script {
-                    docker.build IMAGE_NAME + ":$BUILD_NUMBER"
+                    nginx = docker.build IMAGE_NAME + ":$BUILD_NUMBER"
                 }
             }
         }
         stage('Test') {
             steps{
                 script {
-                    docker.image('moshedayan/nginx-custom') { c ->
-                        docker.image('byrnedo/alpine-curl').inside("--link ${c.id}:curl") {
-                            /* Wait until mysql service is up */
-                            sh 'curl 127.0.0.1'
+                    nginx.run("-p 80:80")
+                    sh 'curl 127.0.0.1'
                         }
-                    }
-                }
             }
         }
         // stage('Pushing image') {
