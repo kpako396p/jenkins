@@ -24,10 +24,10 @@ pipeline {
         stage('Test') {
             steps{
                 script {
-                    docker.image(IMAGE_NAME).withRun('-p 9090:80') {c ->
+                    docker.image(IMAGE_NAME).withRun('-p 8000:80') {c ->
                         sh '''
                         hostname
-                        curl 0.0.0.0
+                        curl 0.0.0.0:8000
                         '''
                     }
                 }
