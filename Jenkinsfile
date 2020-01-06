@@ -16,8 +16,12 @@ pipeline {
             }
         }
         stage('Test image') {
-            customImage.inside {
-                sh 'curl 127.0.0.1' 
+            steps{
+                script{
+                    customImage.inside {
+                        sh "curl 127.0.0.1"
+                    }
+                }
             }
         }
         stage('Pushing image') {
