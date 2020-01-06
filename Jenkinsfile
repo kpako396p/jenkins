@@ -19,7 +19,8 @@ pipeline {
             steps{
                 script{
                     customImage.inside {
-                        sh "curl 127.0.0.1"
+                        sh "curl 127.0.0.1" > output.log
+                        sh "cat output.log"
                     }
                 }
             }
