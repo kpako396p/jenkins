@@ -44,8 +44,8 @@ pipeline {
                         docker exec nginx-custom-$BUILD_NUMBER curl -f -s -o /dev/null -w "%{http_code}" 0.0.0.0/test
                         '''
                     } catch (Exception e) {
-                        withCredentials([usernamePassword(credentialsId: 'jenkins_login', usernameVariable: 'JENKINS_USER', passwordVariable: 'JENKINS_PASS')]) {
-                            echo $JENKINS_USER
+                        withCredentials([usernamePassword(credentialsId: 'jenkins_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                            sh 'echo $USERNAME'
                         }
                     }
                 }
