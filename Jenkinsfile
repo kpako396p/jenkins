@@ -49,7 +49,7 @@ pipeline {
                             STABLE_BUILD=$(curl "${USERNAME}:${PASSWORD}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json" | jq -r '.id')
                             echo $STABLE_BUILD
                             docker kill nginx-custom
-                            docker container prune
+                            docker container prune -f
                             docker run -tid -p 8000:80 --name nginx-custom $IMAGE_NAME:$STABLE_BUILD
                             '''
                         }
