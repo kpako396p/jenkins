@@ -45,7 +45,8 @@ pipeline {
                         '''
                     } catch (Exception e) {
                         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'jenkins_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                        echo '$USERNAME'
+                            echo '$USERNAME'
+                        }
                     }
                 }
             }
