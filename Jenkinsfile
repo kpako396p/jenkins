@@ -46,6 +46,7 @@ pipeline {
                     } catch (Exception e) {
                         withCredentials([usernamePassword(credentialsId: 'jenkins_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             sh '''
+                            echo $USERNAME
                             STABLE_BUILD=$(curl '${USERNAME}:${PASSWORD}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
                             echo $STABLE_BUILD
                             '''
