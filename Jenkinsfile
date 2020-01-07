@@ -39,10 +39,12 @@ pipeline {
         }
     post {
         always {
+            withCredentials([string(credentialsId: 'jenkins_login', variable: 'NUSER'),string(credentialsId: 'jenkins_login', variable: 'NPASS')]) {
             echo 'One way or another, I have finished'
             deleteDir()
-            STABLE_BUILD=$(curl -u $username:$api_token '0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
+            STABLE_BUILD=$(curl '${NUSER}:${NPASS}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
             echo $STABLE_BUILD
+            }
         }
         success {
             echo 'I succeeeded!'
@@ -51,7 +53,10 @@ pipeline {
             echo 'I am unstable :/'
         }
         failure {
-            STABLE_BUILD=$(curl -u $username:$api_token '0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
+            withCredentials([string(credentialsId: 'jenkins_login', variable: 'NUSER'),string(credentialsId: 'jenkins_login', variable: 'NPASS')]) {
+            echo 'One way or another, I have finished'
+            deleteDir()
+            STABLE_BUILD=$(curl '${NUSER}:${NPASS}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
             echo $STABLE_BUILD
         }
         changed {
