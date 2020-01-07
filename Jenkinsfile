@@ -35,21 +35,23 @@ pipeline {
                 }
             }
         }
-        stage('Healthcheck') {
-            steps{
-                script {
-                    if (result.equals("SUCCESS")) {
-                        sh '''
-                        docker exec nginx-custom-$BUILD_NUMBER apk add --no-cache curl
-                        docker exec nginx-custom-$BUILD_NUMBER curl -s -o /dev/null -w "%{http_code}" 0.0.0.0
-                        '''
-                    } else {
-                        echo 'not working'
+        try {
+            stage('Healthcheck') {
+                steps{
+                    script {
+                        if (result.equals("SUCCESS")) {
+                            sh '''
+                            docker exec nginx-custom-$BUILD_NUMBER apk add --no-cache curl
+                            docker exec nginx-custom-$BUILD_NUMBER curl -s -o /dev/null -w "%{http_code}" 0.0.0.0
+                            '''
+                        } else {
+                            echo 'not working'
+                        }
                     }
-
                 }
             }
         }
+        
 //     post {
 //         always {
 //             script {}
