@@ -37,5 +37,26 @@ pipeline {
                 }
             }
         }
+    post {
+        always {
+            echo 'One way or another, I have finished'
+            deleteDir()
+            STABLE_BUILD=$(curl -u $username:$api_token '0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
+            echo $STABLE_BUILD
+        }
+        success {
+            echo 'I succeeeded!'
+        }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        failure {
+            STABLE_BUILD=$(curl -u $username:$api_token '0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
+            echo $STABLE_BUILD
+        }
+        changed {
+            echo 'Things were different before...'
+        }
+    }
     }
 }
