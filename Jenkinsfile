@@ -37,35 +37,31 @@ pipeline {
                 }
             }
         }
-        post {
-            always {
-                // withCredentials([usernamePassword(credentialsId: 'jenkins_login', usernameVariable: 'NUSER', passwordVariable: 'NPASS')]) {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'jenkins_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh 'echo $USERNAME  $PASSWORD'
-    // }
-    //                 script{echo 'One way or another, I have finished'
-    //                 deleteDir()
-    //                 STABLE_BUILD=$(curl '${NUSER}:${NPASS}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
-    //                 echo $STABLE_BUILD
-                }
-            }
-            success {
-                echo 'I succeeeded!'
-            }
-            unstable {
-                echo 'I am unstable :/'
-            }
-            // failure {
-            //     withCredentials([string(credentialsId: 'jenkins_login', variable: 'NUSER'),string(credentialsId: 'jenkins_login', variable: 'NPASS')]) {
-            //         echo 'One way or another, I have finished'
-            //         deleteDir()
-            //         STABLE_BUILD=$(curl '${NUSER}:${NPASS}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
-            //         echo $STABLE_BUILD
-            //     }
-            // }
-            changed {
-                echo 'Things were different before...'
+    post {
+        always {
+            // withCredentials([usernamePassword(credentialsId: 'jenkins_login', usernameVariable: 'NUSER', passwordVariable: 'NPASS')]) {
+            //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'jenkins_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                sh 'echo $USERNAME  $PASSWORD'
+// }
+//                 script{echo 'One way or another, I have finished'
+//                 deleteDir()
+//                 STABLE_BUILD=$(curl '${NUSER}:${NPASS}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
+//                 echo $STABLE_BUILD
             }
         }
+        success {
+            echo 'I succeeeded!'
         }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        // failure {
+        //     withCredentials([string(credentialsId: 'jenkins_login', variable: 'NUSER'),string(credentialsId: 'jenkins_login', variable: 'NPASS')]) {
+        //         echo 'One way or another, I have finished'
+        //         deleteDir()
+        //         STABLE_BUILD=$(curl '${NUSER}:${NPASS}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json' | jq -r '.id')
+        //         echo $STABLE_BUILD
+        //     }
+        // }
+    }
 }
