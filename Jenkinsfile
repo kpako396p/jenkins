@@ -41,7 +41,7 @@ pipeline {
                     try{ 
                         sh '''
                         docker exec nginx-custom-$BUILD_NUMBER apk add --no-cache curl
-                        docker exec nginx-custom-$BUILD_NUMBER curl -s -o /dev/null -w "%{http_code}" 0.0.0.0
+                        docker exec nginx-custom-$BUILD_NUMBER curl -s -o /dev/null -w "%{http_code}" 0.0.0.0/test
                         '''
                     } catch (Exception e) {
                         echo 'not working'
