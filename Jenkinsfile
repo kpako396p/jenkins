@@ -31,17 +31,25 @@ pipeline {
                 script {
                     sh '''
                     docker run -tid -p 8000:80 --name nginx-custom-$BUILD_NUMBER $IMAGE_NAME:latest
-                    docker exec nginx-custom-$BUILD_NUMBER apk add --no-cache curl
-                    docker exec nginx-custom-$BUILD_NUMBER curl -s -o /dev/null -w "%{http_code}" 0.0.0.0
                     '''
                 }
             }
         }
-    post { 
-        always { 
-            echo 'I will always say Hello again!'
+        stage('Healthcheck') {
+            steps{
+                script {
+                    if (result.equals("SUCCESS")) {
+                        sh '''
+                        docker exec nginx-custom-$BUILD_NUMBER apk add --no-cache curl
+                        docker exec nginx-custom-$BUILD_NUMBER curl -s -o /dev/null -w "%{http_code}" 0.0.0.0
+                        '''
+                    } else {
+                        echo 'not working'
+                    }
+
+                }
+            }
         }
-    }
 //     post {
 //         always {
 //             script {}
