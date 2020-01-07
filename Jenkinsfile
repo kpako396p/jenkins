@@ -40,8 +40,8 @@ pipeline {
                 script {
                     try{ 
                         sh '''
-                        docker exec nginx-custom-$BUILD_NUMBER apk add --no-cache curl
-                        docker exec nginx-custom-$BUILD_NUMBER curl -f -s -o /dev/null -w "%{http_code}" 0.0.0.0/test
+                        docker exec nginx-custom apk add --no-cache curl
+                        docker exec nginx-custom curl -f -s -o /dev/null -w "%{http_code}" 0.0.0.0/test
                         '''
                     } catch (Exception e) {
                         withCredentials([usernamePassword(credentialsId: 'jenkins_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
