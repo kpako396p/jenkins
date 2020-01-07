@@ -39,6 +39,7 @@ pipeline {
         }
     post {
         always {
+            script {}
             // withCredentials([usernamePassword(credentialsId: 'jenkins_login', usernameVariable: 'NUSER', passwordVariable: 'NPASS')]) {
             //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'jenkins_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                 sh 'echo $USERNAME  $PASSWORD'
@@ -50,11 +51,14 @@ pipeline {
             }
         }
         success {
-            echo 'I succeeeded!'
+            script {
+                echo 'I succeeeded!'
+            }
+            
         }
-        unstable {
-            echo 'I am unstable :/'
-        }
+        // unstable {
+        //     echo 'I am unstable :/'
+        // }
         // failure {
         //     withCredentials([string(credentialsId: 'jenkins_login', variable: 'NUSER'),string(credentialsId: 'jenkins_login', variable: 'NPASS')]) {
         //         echo 'One way or another, I have finished'
