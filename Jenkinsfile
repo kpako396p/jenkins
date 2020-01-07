@@ -30,7 +30,7 @@ pipeline {
             steps{
                 script {
                     sh '''
-                    docker run -tid -p 8000:80 --name nginx-custom-$BUILD_NUMBER $IMAGE_NAME:latest
+                    docker run -tid -p 8000:80 --name nginx-custom $IMAGE_NAME:latest
                     '''
                 }
             }
@@ -46,9 +46,10 @@ pipeline {
                     } catch (Exception e) {
                         withCredentials([usernamePassword(credentialsId: 'jenkins_login', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                             sh '''
-                            echo $USERNAME
                             STABLE_BUILD=$(curl "${USERNAME}:${PASSWORD}@0.0.0.0:8080/job/nginx/lastSuccessfulBuild/api/json" | jq -r '.id')
                             echo $STABLE_BUILD
+                            docker kill nginx-custom
+                            docker run -tid -p 8000:80 --name nginx-custom $IMAGE_NAME:$STABLE_BUILD
                             '''
                         }
                     }
